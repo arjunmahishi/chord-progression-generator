@@ -3,12 +3,16 @@ import time
 
 chromatic_scale = ['c','c#','d','d#','e','f','f#','g','g#','a','a#','b']
 
-def getMajorScale(key_note):
-    formula = [2,2,1,2,2]
+def getScale(key, sType="major"):
+    if sType == "major":
+        formula = [2,2,1,2,2]
+    else:
+        formula = [2,1,2,2,1]
+
     scale = []
-    scale.append(key_note)
+    scale.append(key)
     for i in range(len(chromatic_scale)):
-        if chromatic_scale[i] == key_note:
+        if chromatic_scale[i] == key:
             break
     j = 0
     while len(scale) < 6:
@@ -21,33 +25,17 @@ def getMajorScale(key_note):
         scale.append(chromatic_scale[i])
     return scale
 
-def getMinorScale(key_note):
-    formula = [2,1,2,2,1]
-    scale = []
-    scale.append(key_note)
-    for i in range(len(chromatic_scale)):
-        if chromatic_scale[i] == key_note:
-            break
-    j = 0
-    while len(scale) < 6:
-        if i + formula[j] < 12:
-            i += formula[j]
-            j += 1
-        else:
-            i = 12 - (i + formula[j])
-            j += 1
-        scale.append(chromatic_scale[i])
-    return scale            
-
-def compose():
-    key_note = random.choice(chromatic_scale)
+def generate():
+    key = random.choice(chromatic_scale)
 
     toss = [0,1]
     j = random.choice(toss)
     if j == 1:
-        scale = getMinorScale(key_note)
+        sType = "minor"
     else:
-        scale = getMajorScale(key_note)
+        sType = "major"
+
+    scale = getScale(key, sType)
 
     no_of_chords = random.randrange(3,6)
 
@@ -63,3 +51,5 @@ def compose():
                 chords += scale[k] + ' '
 
     return chords
+
+print (generate())
